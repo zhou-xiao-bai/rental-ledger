@@ -1,0 +1,23 @@
+services:
+  rental-ledger:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-3000}:3000"
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?请在 .env 中设置固定账号密码}
+      SESSION_SECRET: ${SESSION_SECRET:?请在 .env 中设置随机会话密钥}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:?请填写浏览器实际访问的完整地址}
+    volumes:
+      - rental-ledger-data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp
+
+volumes:
+  rental-ledger-data:

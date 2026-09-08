@@ -11,7 +11,10 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "build:selfhost": "vite build --config vite.selfhost.config.ts",
+    "start:selfhost": "node --env-file=.env server/server.mjs",
+    "test": "node --test tests/ledger.test.mjs tests/reporting.test.mjs tests/store.test.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

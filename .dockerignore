@@ -1,0 +1,14 @@
+node_modules
+.git
+.env
+.env.*
+.wrangler
+.openai
+dist
+selfhost-dist
+data
+work
+outputs
+*.sqlite*
+*.tar.gz
+*.tsbuildinfo
