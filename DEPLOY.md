@@ -90,6 +90,14 @@ npm run start:selfhost
 
 默认数据库位置为 `data/ledger.sqlite`，可通过 `DATABASE_PATH` 指定。无 Docker 运行的自托管服务器与 Docker 容器使用完全相同的服务端入口和前端产物。
 
+## HTTP 访问与保存故障修复
+
+本版本修复公网 HTTP 下点击保存后一直“保存中”的问题：浏览器缺少 `crypto.randomUUID()` 时，使用 `crypto.getRandomValues()` 生成请求编号；生成编号、序列化或网络请求失败都会恢复按钮，重试仍保留幂等保护。
+
+通过公网 IP 直连时，在 `.env` 设置 `BIND_ADDRESS=0.0.0.0`、`PORT=3000` 和 `PUBLIC_ORIGIN=http://你的服务器公网IP:3000`，并在服务器安全组与防火墙放行 TCP 3000。正式使用推荐 HTTPS，避免密码和账本明文传输。
+
+已部署旧版本的服务器：用新版源码覆盖项目代码，保留原 `.env` 和数据卷，然后运行 `docker compose up -d --build`，完成后刷新浏览器（必要时强制刷新）。修复不改变数据库格式，也不修改已有账务数据。
+
 ## 验证情况
 
 已验证：独立前端构建；固定账号登录、伪造 Cookie 拒绝、跨站提交拒绝；SQLite 写入及重启持久化；重复请求幂等；两台设备并发修改；金额、押金、退款、成本、尾期折算及提醒筛选。

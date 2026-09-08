@@ -44,4 +44,6 @@
 
 自托管前端：`npm run build:selfhost`；账务与查询测试：`npm test`；自托管完整接口测试：`node --test tests/selfhost.test.mjs`。
 
+HTTP 兼容：请求编号在浏览器没有 `crypto.randomUUID()` 时使用 `crypto.getRandomValues()` 生成。保存前准备和请求异常均恢复按钮，网络结果不确定时保留同一请求编号重试，避免重复记账。`npm test` 包含 HTTP 编号生成、异常恢复、断网重试、冲突和重复点击回归测试。
+
 WebMCP 提供读取经营概览及打开新增房源表单两项能力，浏览器不支持时忽略；未在支持 WebMCP 的上下文进行运行验证。
